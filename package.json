@@ -1,0 +1,22 @@
+{
+  "name": "sbotify",
+  "version": "1.0.0",
+  "description": "A discord bot to allow users to use spotify features within discord itself by linking their account on the webpage.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "deploy": "node deploy-commands.js"
+  },
+  "author": "Guitarband",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "mongoose": "^8.8.0"
+  },
+  "devDependencies": {
+    "eslint": "^9.13.0"
+  }
+}
