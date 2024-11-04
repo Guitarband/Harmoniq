@@ -32,10 +32,21 @@ module.exports = {
         try{
             const userToken = await Token.findOne({discordId: discordId})
             if(!userToken) {
-                return await interaction.reply({
-                  content:`You have not connected your spotify account with Sbotify`,
-                  ephemeral: true
-                })
+                const embed = new EmbedBuilder()
+                  .setColor('#950013')
+                  .setTitle('Account Not Connected')
+                  .setDescription('You have not connected your spotify account with Sbotify to use this command')
+                  .setTimestamp()
+                return await interaction.reply({ embeds: [embed], ephemeral: true })
+            }
+
+            if(userToken.scopes !== process.env.spotify_scopes){
+                const embed = new EmbedBuilder()
+                  .setColor('#950013')
+                  .setTitle('Account Authorization lost')
+                  .setDescription('Sbotify has lost authorization to your account. Please use /connect_spotify to reauthorize.')
+                  .setTimestamp()
+                return await interaction.reply({ embeds: [embed], ephemeral: true })
             }
 
             let accessToken = userToken.accessToken
@@ -51,13 +62,14 @@ module.exports = {
 
                 response = await axios.post(`https://api.spotify.com/v1/users/${userData.data.id}/playlists`, {
                     name: name,
-                    public: playlistType === 'Public',
-                    collaborative: playlistType === 'Collaborative'
+                    public: playlistType === 'public',
+                    collaborative: playlistType === 'collaborative'
                 },{
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 })
+
             }catch (error){
                 if(error.response.status === 401){
                     try {
@@ -98,7 +110,7 @@ module.exports = {
 
             await interaction.reply({
                 content: `Playlist [**${response.data.name}**](${response.data.external_urls.spotify}) has been created.`,
-                ephemeral: false
+                ephemeral: true
             })
         } catch (error){
             console.error(error)

@@ -7,7 +7,7 @@ module.exports = {
     cooldown: 5,
     data: new SlashCommandBuilder()
       .setName('invite')
-      .setDescription('Invite a user to your server')
+      .setDescription('Invite a user to your collaborative playlist')
       .addStringOption(option =>
         option.setName('playlist')
           .setDescription('Name of the playlist')
@@ -59,13 +59,22 @@ module.exports = {
             }
 
             const userToken = await Token.findOne({discordId: discordId})
-
             if(!userToken) {
                 await interaction.deleteReply()
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Not Connected')
-                  .setDescription('You have not connected your spotify account with Sbotify')
+                  .setDescription('You have not connected your spotify account with Sbotify to use this command')
+                  .setTimestamp()
+                return await interaction.followUp({ embeds: [embed], ephemeral: true })
+            }
+
+            if(userToken.scopes !== process.env.spotify_scopes){
+                await interaction.deleteReply()
+                const embed = new EmbedBuilder()
+                  .setColor('#950013')
+                  .setTitle('Account Authorization lost')
+                  .setDescription('Sbotify has lost authorization to your account. Please use /connect_spotify to reauthorize.')
                   .setTimestamp()
                 return await interaction.followUp({ embeds: [embed], ephemeral: true })
             }
@@ -131,30 +140,43 @@ module.exports = {
             await interaction.editReply(`Playlist found! Attempting to invite.`)
 
             try {
-                const inviteEmbed = new EmbedBuilder()
-                  .setColor('#1DB954')
-                  .setTitle(`You've been invited to **"${playlistName}"**`)
-                  .setDescription(`You've been invited to a collaborative playlist by ${interaction.user.username}!`)
-                  .setTimestamp();
+                if(response.collaborative) {
+                    const inviteEmbed = new EmbedBuilder()
+                      .setColor('#1DB954')
+                      .setTitle(`You've been invited to **"${playlistName}"**`)
+                      .setDescription(`You've been invited to a collaborative playlist by ${interaction.user.username}!\n\n[Invite Sbotify to your own servers](https://discord.com/api/oauth2/authorize?client_id=1301820770162315307&permissions=0&scope=bot%20applications.commands)`)
+                      .setTimestamp();
 
-                const button = new ButtonBuilder()
-                  .setLabel('Accept')
-                  .setStyle(ButtonStyle.Link)
-                  .setURL(inviteLink)
+                    const button = new ButtonBuilder()
+                      .setLabel('Accept')
+                      .setStyle(ButtonStyle.Link)
+                      .setURL(inviteLink)
 
-                const row = new ActionRowBuilder()
-                  .addComponents(button)
+                    const row = new ActionRowBuilder()
+                      .addComponents(button)
 
-                await userToInvite.send({ embeds: [inviteEmbed], components: [row] })
+                    await userToInvite.send({embeds: [inviteEmbed], components: [row]})
 
-                await interaction.deleteReply()
+                    await interaction.deleteReply()
 
-                const embed = new EmbedBuilder()
-                  .setColor('#00FF00')
-                  .setTitle('Invitation sent to ${userToInvite.username}')
-                  .setTimestamp();
+                    const embed = new EmbedBuilder()
+                      .setColor('#00FF00')
+                      .setTitle(`Invitation sent to ${userToInvite.username}`)
+                      .setTimestamp();
 
-                await interaction.followUp({ embeds: [embed], ephemeral: true });
+                    await interaction.followUp({embeds: [embed], ephemeral: true});
+                }
+                else{
+                    await interaction.deleteReply()
+
+                    const embed = new EmbedBuilder()
+                      .setColor('#00FF00')
+                      .setTitle('Invalid Playlist')
+                      .setDescription(`The playlist **"${playlistName}"** is not a collaborative playlist`)
+                      .setTimestamp();
+
+                    await interaction.followUp({embeds: [embed], ephemeral: true});
+                }
             }catch (error){
                 console.error(error)
                 await interaction.deleteReply()

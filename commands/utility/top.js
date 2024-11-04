@@ -33,11 +33,22 @@ module.exports = {
 
         try {
             const userToken = await Token.findOne({discordId: discordId})
-            if (!userToken) {
-                return await interaction.reply({
-                    content: `You have not connected your spotify account with Sbotify`,
-                    ephemeral: true
-                })
+            if(!userToken) {
+                const embed = new EmbedBuilder()
+                  .setColor('#950013')
+                  .setTitle('Account Not Connected')
+                  .setDescription('You have not connected your spotify account with Sbotify to use this command')
+                  .setTimestamp()
+                return await interaction.reply({ embeds: [embed], ephemeral: true })
+            }
+
+            if(userToken.scopes !== process.env.spotify_scopes){
+                const embed = new EmbedBuilder()
+                  .setColor('#950013')
+                  .setTitle('Account Authorization lost')
+                  .setDescription('Sbotify has lost authorization to your account. Please use /connect_spotify to reauthorize.')
+                  .setTimestamp()
+                return await interaction.reply({ embeds: [embed], ephemeral: true })
             }
 
             let accessToken = userToken.accessToken

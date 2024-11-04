@@ -28,7 +28,7 @@ module.exports = {
                 client_id: process.env.spotify_client_id,
                 response_type: 'code',
                 redirect_uri: process.env.spotify_redirect_uri,
-                scope: 'user-read-private user-read-email user-top-read playlist-modify-public playlist-modify-private playlist-read-private',
+                scope: `${process.env.spotify_scopes}`,
                 state: interaction.user.id
             })}`
 

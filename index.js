@@ -70,7 +70,7 @@ app.get('/callback', async(req, res) => {
 
         await Token.findOneAndUpdate(
           { discordId: state },
-          { accessToken: access_token, refreshToken: refresh_token, expiresIn: expires_in, retrievedAt: new Date() },
+          { accessToken: access_token, refreshToken: refresh_token, scopes: process.env.spotify_scopes, expiresIn: expires_in, retrievedAt: new Date() },
           { upsert: true, new: true }
         )
         res.send('Successfully authenticated with Spotify! You can now close this tab')
