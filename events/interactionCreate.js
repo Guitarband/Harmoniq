@@ -1,6 +1,6 @@
 const { Events, EmbedBuilder} = require('discord.js')
 const axios = require('axios')
-const Token = require('../models/token')
+const Token = require('../models/Token')
 const renewSpotifyToken = require('../hooks/renewSpotifyToken')
 const buildPlayer = require('../hooks/buildPlayer')
 
@@ -124,7 +124,7 @@ module.exports = {
                             }
                         });
 
-                        return await interaction.update(buildPlayer(userData, response, discordId));
+                        await interaction.update(buildPlayer(userData, response, discordId));
 
                         const responseAction = task.endsWith('e') ? task.slice(0, -1) : task
                         return await interaction.reply(
