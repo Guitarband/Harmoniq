@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const axios = require('axios');
 const Token = require('../../models/Token');
 const renewSpotifyToken = require('../../hooks/renewSpotifyToken');
+const path = require("path");
 
 module.exports = {
     cooldown: 5,
@@ -135,10 +136,15 @@ module.exports = {
 
             const embed = new EmbedBuilder()
               .setColor('#1DB954')
+              .setThumbnail('attachment://SpotifyLogo.png')
               .setTitle('Select a song to add:')
               .setDescription(tracks.map((track, index) => `**${index + 1}**: ${track.name} by ${track.artists.map(artist => artist.name).join(', ')}`).join('\n'));
 
-            await interaction.editReply({ embeds: [embed], components: [songRow, cancelRow] });
+            await interaction.editReply({ embeds: [embed], components: [songRow, cancelRow], files:[{
+                    attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                    name: 'SpotifyLogo.png'
+                }]
+            });
 
             const filter = i => i.customId.startsWith('add_song_') || i.customId === 'cancel';
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });

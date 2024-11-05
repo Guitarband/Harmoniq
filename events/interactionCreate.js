@@ -58,6 +58,8 @@ module.exports = {
         }
 
         if (interaction.isButton()) {
+            if (interaction.customId.startsWith('add_song') || interaction.customId.startsWith('cancel')) return
+
             let [task, discordId] = interaction.customId.split('_')
             if (interaction.user.id !== discordId) {
                 return await interaction.reply(

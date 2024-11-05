@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder, ActionRowBuilder, ButtonBuilder, Butt
 const axios = require('axios');
 const Token = require('../../models/Token');
 const renewSpotifyToken = require('../../hooks/renewSpotifyToken');
+const path = require("path");
 
 module.exports = {
     cooldown: 5,
@@ -143,6 +144,7 @@ module.exports = {
                 if(response.collaborative) {
                     const inviteEmbed = new EmbedBuilder()
                       .setColor('#1DB954')
+                      .setThumbnail('attachment://SpotifyLogo.png')
                       .setTitle(`You've been invited to **"${playlistName}"**`)
                       .setDescription(`You've been invited to a collaborative playlist by ${interaction.user.username}!\n\n[Invite Harmoniq to your own servers](https://discord.com/api/oauth2/authorize?client_id=1301820770162315307&permissions=0&scope=bot%20applications.commands)`)
                       .setTimestamp();
@@ -155,16 +157,25 @@ module.exports = {
                     const row = new ActionRowBuilder()
                       .addComponents(button)
 
-                    await userToInvite.send({embeds: [inviteEmbed], components: [row]})
+                    await userToInvite.send({embeds: [inviteEmbed], components: [row], files:[{
+                            attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                            name: 'SpotifyLogo.png'
+                        }]
+                    })
 
                     await interaction.deleteReply()
 
                     const embed = new EmbedBuilder()
                       .setColor('#00FF00')
                       .setTitle(`Invitation sent to ${userToInvite.username}`)
+                      .setThumbnail('attachment://SpotifyLogo.png')
                       .setTimestamp();
 
-                    await interaction.followUp({embeds: [embed], ephemeral: true});
+                    await interaction.followUp({embeds: [embed], ephemeral: true, files:[{
+                            attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                            name: 'SpotifyLogo.png'
+                        }]
+                    });
                 }
                 else{
                     await interaction.deleteReply()

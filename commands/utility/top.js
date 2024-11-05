@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const Token = require('../../models/Token');
 const renewSpotifyToken = require('../../hooks/renewSpotifyToken');
+const path = require("path");
 
 module.exports = {
     cooldown: 5,
@@ -102,6 +103,7 @@ module.exports = {
             const embed = new EmbedBuilder()
               .setColor('#1DB954')
               .setTitle(`Your Top ${type === 'tracks' ? 'Tracks' : 'Artists'} in the last ${time_range === 'short_term' ? '4 Weeks' : time_range === 'medium_term' ? '6 Months' : 'Year'}`)
+              .setThumbnail('attachment://SpotifyLogo.png')
               .setTimestamp()
 
             items.forEach((item, index) => {
@@ -113,7 +115,11 @@ module.exports = {
                 })
             })
 
-            return interaction.reply({embeds: [embed]})
+            await interaction.reply({ embeds: [embed], files:[{
+                    attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                    name: 'SpotifyLogo.png'
+                }]
+            })
         }catch (error){
             console.error(error)
             return await interaction.reply({
