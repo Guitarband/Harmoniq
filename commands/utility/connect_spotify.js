@@ -11,18 +11,16 @@ module.exports = {
     async execute(interaction){
         try {
             const userToken = await Token.findOne({discordId: interaction.user.id})
-            /*
-            if (userToken) {
+
+            if (userToken && userToken.scopes === process.env.spotify_scopes) {
                 const embed = new EmbedBuilder()
                   .setColor('#1DB954')
                   .setTitle('Account Connected')
-                  .setDescription('Your account is already connected to Sbotify')
+                  .setDescription('Your account is already connected to Harmoniq')
                   .setTimestamp()
 
                 return await interaction.reply({ embeds: [embed], ephemeral: true })
             }
-            
-             */
 
             const authUrl = `https://accounts.spotify.com/authorize?${querystring.stringify({
                 client_id: process.env.spotify_client_id,
@@ -35,7 +33,7 @@ module.exports = {
             const embed = new EmbedBuilder()
               .setColor('#1DB954')
               .setTitle('Connect to Spotify')
-              .setDescription('Press the button to allow Sbotify to interact with your Spotify account')
+              .setDescription('Press the button to allow Harmoniq to interact with your Spotify account')
               .setTimestamp()
 
             const button = new ButtonBuilder()

@@ -1,5 +1,5 @@
 {
-  "name": "sbotify",
+  "name": "harmoniq",
   "version": "1.0.0",
   "description": "A discord bot to allow users to use spotify features within discord itself by linking their account on the webpage.",
   "main": "index.js",

@@ -35,7 +35,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Not Connected')
-                  .setDescription('You have not connected your spotify account with Sbotify to use this command')
+                  .setDescription('You have not connected your spotify account with Harmoniq to use this command')
                   .setTimestamp()
                 return await interaction.reply({ embeds: [embed], ephemeral: true })
             }
@@ -44,7 +44,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Authorization lost')
-                  .setDescription('Sbotify has lost authorization to your account. Please use /connect_spotify to reauthorize.')
+                  .setDescription('Harmoniq has lost authorization to your account due to an update. Please use /connect_spotify to reauthorize.')
                   .setTimestamp()
                 return await interaction.reply({ embeds: [embed], ephemeral: true })
             }
@@ -53,23 +53,13 @@ module.exports = {
             let refreshToken = userToken.refreshToken
 
             let response;
+            let userData
             try{
-                let userData = await axios.get(`https://api.spotify.com/v1/me`, {
+                userData = await axios.get(`https://api.spotify.com/v1/me`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`
                     }
                 });
-
-                response = await axios.post(`https://api.spotify.com/v1/users/${userData.data.id}/playlists`, {
-                    name: name,
-                    public: playlistType === 'public',
-                    collaborative: playlistType === 'collaborative'
-                },{
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                })
-
             }catch (error){
                 if(error.response.status === 401){
                     try {
@@ -83,21 +73,11 @@ module.exports = {
                           {new: true}
                         )
 
-                        let userData = await axios.get(`https://api.spotify.com/v1/me`, {
+                        userData = await axios.get(`https://api.spotify.com/v1/me`, {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`
                             }
                         });
-
-                        response = await axios.post(`https://api.spotify.com/v1/users/${userData.data.id}/playlists`, {
-                            name: name,
-                            public: playlistType === 'Public',
-                            collaborative: playlistType === 'Collaborative'
-                        },{
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`
-                            }
-                        })
                     } catch (error){
                         console.error(error)
                         return await interaction.reply({
@@ -107,6 +87,16 @@ module.exports = {
                     }
                 }
             }
+
+            response = await axios.post(`https://api.spotify.com/v1/users/${userData.data.id}/playlists`, {
+                name: name,
+                public: playlistType === 'public',
+                collaborative: playlistType === 'collaborative'
+            },{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })
 
             await interaction.reply({
                 content: `Playlist [**${response.data.name}**](${response.data.external_urls.spotify}) has been created.`,

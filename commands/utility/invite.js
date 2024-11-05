@@ -64,7 +64,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Not Connected')
-                  .setDescription('You have not connected your spotify account with Sbotify to use this command')
+                  .setDescription('You have not connected your spotify account with Harmoniq to use this command')
                   .setTimestamp()
                 return await interaction.followUp({ embeds: [embed], ephemeral: true })
             }
@@ -74,7 +74,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Authorization lost')
-                  .setDescription('Sbotify has lost authorization to your account. Please use /connect_spotify to reauthorize.')
+                  .setDescription('Harmoniq has lost authorization to your account due to an update. Please use /connect_spotify to reauthorize.')
                   .setTimestamp()
                 return await interaction.followUp({ embeds: [embed], ephemeral: true })
             }
@@ -144,7 +144,7 @@ module.exports = {
                     const inviteEmbed = new EmbedBuilder()
                       .setColor('#1DB954')
                       .setTitle(`You've been invited to **"${playlistName}"**`)
-                      .setDescription(`You've been invited to a collaborative playlist by ${interaction.user.username}!\n\n[Invite Sbotify to your own servers](https://discord.com/api/oauth2/authorize?client_id=1301820770162315307&permissions=0&scope=bot%20applications.commands)`)
+                      .setDescription(`You've been invited to a collaborative playlist by ${interaction.user.username}!\n\n[Invite Harmoniq to your own servers](https://discord.com/api/oauth2/authorize?client_id=1301820770162315307&permissions=0&scope=bot%20applications.commands)`)
                       .setTimestamp();
 
                     const button = new ButtonBuilder()

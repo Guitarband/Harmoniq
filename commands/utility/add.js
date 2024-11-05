@@ -32,7 +32,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Not Connected')
-                  .setDescription('You have not connected your Spotify account with Sbotify to use this command.')
+                  .setDescription('You have not connected your Spotify account with Harmoniq to use this command.')
                   .setTimestamp();
                 return await interaction.followUp({ embeds: [embed], ephemeral: true });
             }
@@ -42,7 +42,7 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#950013')
                   .setTitle('Account Authorization lost')
-                  .setDescription('Sbotify has lost authorization to your account. Please use /connect_spotify to reauthorize.')
+                  .setDescription('Harmoniq has lost authorization to your account due to an update. Please use /connect_spotify to reauthorize.')
                   .setTimestamp()
                 return await interaction.followUp({ embeds: [embed], ephemeral: true })
             }
