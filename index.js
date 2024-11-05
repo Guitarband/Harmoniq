@@ -8,6 +8,7 @@ const dotenv = require('dotenv')
 dotenv.config()
 
 const Token = require('./models/Token')
+const keep_alive = require('./keep_alive.js')
 
 const mongoURI = String(process.env.MONGODB_URI)
 console.log(mongoURI)

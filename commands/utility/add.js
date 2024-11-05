@@ -126,21 +126,15 @@ module.exports = {
                 .setStyle(ButtonStyle.Primary)
             );
 
-            const cancelButton = new ButtonBuilder()
-                .setLabel('Cancel')
-                .setCustomId('cancel')
-                .setStyle(ButtonStyle.Danger)
-
             const songRow = new ActionRowBuilder().addComponents(buttons);
-            const cancelRow = new ActionRowBuilder().addComponents(cancelButton);
 
             const embed = new EmbedBuilder()
               .setColor('#1DB954')
               .setThumbnail('attachment://SpotifyLogo.png')
               .setTitle('Select a song to add:')
-              .setDescription(tracks.map((track, index) => `**${index + 1}**: ${track.name} by ${track.artists.map(artist => artist.name).join(', ')}`).join('\n'));
+              .setDescription(tracks.map((track, index) => `**${index + 1}**: ${track.name} by ${track.artists.map(artist => artist.name).join(', ')}`).join('\n') + "\n\nThis message will automatically disappear after 30 seconds");
 
-            await interaction.editReply({ embeds: [embed], components: [songRow, cancelRow], files:[{
+            await interaction.editReply({ embeds: [embed], components: [songRow], files:[{
                     attachment: path.join(__dirname, '../../assets/SpotifyLogo.png'),
                     name: 'SpotifyLogo.png'
                 }]
@@ -150,12 +144,6 @@ module.exports = {
             const collector = interaction.channel.createMessageComponentCollector({ filter, time: 30000 });
 
             collector.on('collect', async i => {
-                if (i.customId === 'cancel') {
-                    await i.deleteReply();
-                    collector.stop();
-                    return;
-                }
-
                 const trackIndex = parseInt(i.customId.split('_')[2]);
                 const selectedTrack = tracks[trackIndex];
 
