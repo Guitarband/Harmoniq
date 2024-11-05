@@ -12,7 +12,7 @@ const Token = require('./models/Token')
 const mongoURI = process.env.mongodb_uri
 console.log(mongoURI)
 
-mongoose.connect(mongoURI )
+mongoose.connect(String(mongoURI))
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => {
       console.error(error)
