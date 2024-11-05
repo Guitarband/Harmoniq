@@ -7,7 +7,7 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const Token = require('./models/token')
+const Token = require('./models/Token')
 
 mongoose.connect(process.env.mongodb_uri)
   .then(() => console.log('Connected to MongoDB'))
