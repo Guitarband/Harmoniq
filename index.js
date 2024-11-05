@@ -9,7 +9,7 @@ dotenv.config()
 
 const Token = require('./models/Token')
 
-const mongoURI = String(process.env.mongodb_uri)
+const mongoURI = String(process.env.MONGODB_URI)
 console.log(mongoURI)
 
 mongoose.connect(mongoURI)
