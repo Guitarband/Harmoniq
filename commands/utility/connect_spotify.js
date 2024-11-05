@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder} = require('discord.js');
 const querystring = require("node:querystring");
-const Token = require('../../models/token');
+const Token = require('../../models/Token');
 
 module.exports = {
     cooldown: 60,

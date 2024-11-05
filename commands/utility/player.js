@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, EmbedBuilder, ButtonBuilder, ButtonStyle, ActionRowBuilder } = require('discord.js');
 const axios = require('axios');
-const Token = require('../../models/token');
+const Token = require('../../models/Token');
 const renewSpotifyToken = require('../../hooks/renewSpotifyToken');
 const buildPlayer = require('../../hooks/buildPlayer');
 
