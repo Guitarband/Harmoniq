@@ -94,7 +94,7 @@ module.exports = {
               .setTimestamp()
 
             await interaction.reply({ embeds: [embed], files:[{
-                    attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                    attachment: path.join(__dirname, '../../assets/SpotifyLogo.png'),
                     name: 'SpotifyLogo.png'
                 }]
             })

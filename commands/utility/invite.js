@@ -172,7 +172,7 @@ module.exports = {
                       .setTimestamp();
 
                     await interaction.followUp({embeds: [embed], ephemeral: true, files:[{
-                            attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                            attachment: path.join(__dirname, '../../assets/SpotifyLogo.png'),
                             name: 'SpotifyLogo.png'
                         }]
                     });

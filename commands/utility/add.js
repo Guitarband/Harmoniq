@@ -141,7 +141,7 @@ module.exports = {
               .setDescription(tracks.map((track, index) => `**${index + 1}**: ${track.name} by ${track.artists.map(artist => artist.name).join(', ')}`).join('\n'));
 
             await interaction.editReply({ embeds: [embed], components: [songRow, cancelRow], files:[{
-                    attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                    attachment: path.join(__dirname, '../../assets/SpotifyLogo.png'),
                     name: 'SpotifyLogo.png'
                 }]
             });
