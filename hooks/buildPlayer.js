@@ -31,6 +31,7 @@ function buildPlayer(userData, response, discordId) {
           .setColor('#1DB954')
           .setTitle(`Player Paused`)
           .setDescription(`Your spotify account is not playing any tracks at the moment`)
+          .setThumbnail('attachment://SpotifyLogo.png')
           .setTimestamp();
     }
 

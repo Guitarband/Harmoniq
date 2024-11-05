@@ -2,6 +2,7 @@ const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 const axios = require('axios');
 const Token = require('../../models/Token');
 const renewSpotifyToken = require('../../hooks/renewSpotifyToken');
+const path = require("path");
 
 module.exports = {
     cooldown: 5,
@@ -87,11 +88,16 @@ module.exports = {
               .setColor('#1DB954')
               .setTitle('Account')
               .setDescription(responseMessage)
-              .setThumbnail(userData.images.length ? userData.images[0].url : null)
+              .setThumbnail('attachment://SpotifyLogo.png')
+              .setImage(userData.images.length ? userData.images[0].url : null)
               .setURL(userData.external_urls.spotify)
               .setTimestamp()
 
-            await interaction.reply({ embeds: [embed] })
+            await interaction.reply({ embeds: [embed], files:[{
+                    attachment: path.join(__dirname, '../assets/SpotifyLogo.png'),
+                    name: 'SpotifyLogo.png'
+                }]
+            })
         }catch (error){
             console.error(error)
             return await interaction.reply({
