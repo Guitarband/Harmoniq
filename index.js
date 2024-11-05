@@ -9,7 +9,7 @@ dotenv.config()
 
 const Token = require('./models/Token')
 
-mongoose.connect(process.env.mongodb_uri)
+mongoose.connect(`${process.env.mongodb_uri}`)
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => {
       console.error(error)
