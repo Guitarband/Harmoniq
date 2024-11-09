@@ -26,11 +26,18 @@ function buildPlayer(userData, response, discordId) {
             { name: 'Shuffle', value: response.data.shuffle_state ? 'On' : 'Off', inline: true }
           )
           .setTimestamp();
+    } else if (response.data.device.is_private_session && response.data.device.is_active) {
+        embed = new EmbedBuilder()
+          .setColor('#1DB954')
+          .setTitle(`Private Session Active`)
+          .setDescription(`Your spotify account is currently in a private session and as such data cannot be displayed.`)
+          .setThumbnail('attachment://SpotifyLogo.png')
+          .setTimestamp();
     } else {
         embed = new EmbedBuilder()
           .setColor('#1DB954')
           .setTitle(`Player Paused`)
-          .setDescription(`Your spotify account is not playing any tracks at the moment`)
+          .setDescription(`Your spotify account is not playing any tracks at the moment.`)
           .setThumbnail('attachment://SpotifyLogo.png')
           .setTimestamp();
     }

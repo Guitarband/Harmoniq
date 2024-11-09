@@ -32,6 +32,8 @@ module.exports = {
         const time_range = interaction.options.getString('time_range')
         const discordId = interaction.user.id
 
+        await interaction.deferReply()
+
         try {
             const userToken = await Token.findOne({discordId: discordId})
             if(!userToken) {
@@ -115,14 +117,14 @@ module.exports = {
                 })
             })
 
-            await interaction.reply({ embeds: [embed], files:[{
+            await interaction.editReply({ embeds: [embed], files:[{
                     attachment: path.join(__dirname, '../../assets/SpotifyLogo.png'),
                     name: 'SpotifyLogo.png'
                 }]
             })
         }catch (error){
             console.error(error)
-            return await interaction.reply({
+            return await interaction.editReply({
                 content:`An error occurred while trying to fetch your spotify account`,
                 ephemeral: true
             })

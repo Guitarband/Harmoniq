@@ -65,7 +65,7 @@ module.exports = {
                 }
             }
 
-            let response = await axios.get('https://api.spotify.com/v1/me/player/currently-playing', {
+            let response = await axios.get('https://api.spotify.com/v1/me/player', {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
