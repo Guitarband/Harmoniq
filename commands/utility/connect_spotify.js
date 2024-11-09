@@ -9,6 +9,14 @@ module.exports = {
       .setDescription('Connect your Spotify account to use the bot')
     ,
     async execute(interaction){
+        const authUrl = `https://accounts.spotify.com/authorize?${querystring.stringify({
+            client_id: process.env.spotify_client_id,
+            response_type: 'code',
+            redirect_uri: process.env.spotify_redirect_uri,
+            scope: `${process.env.spotify_scopes}`,
+            state: interaction.user.id
+        })}`
+
         try {
             const userToken = await Token.findOne({discordId: interaction.user.id})
 
@@ -16,19 +24,11 @@ module.exports = {
                 const embed = new EmbedBuilder()
                   .setColor('#1DB954')
                   .setTitle('Account Connected')
-                  .setDescription('Your account is already connected to Harmoniq')
+                  .setDescription(`Your account is already connected to Harmoniq.[If you are having issues, try reconnected here](${authUrl})`)
                   .setTimestamp()
 
                 return await interaction.reply({ embeds: [embed], ephemeral: true })
             }
-
-            const authUrl = `https://accounts.spotify.com/authorize?${querystring.stringify({
-                client_id: process.env.spotify_client_id,
-                response_type: 'code',
-                redirect_uri: process.env.spotify_redirect_uri,
-                scope: `${process.env.spotify_scopes}`,
-                state: interaction.user.id
-            })}`
 
             const embed = new EmbedBuilder()
               .setColor('#1DB954')
