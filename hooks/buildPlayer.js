@@ -26,7 +26,7 @@ function buildPlayer(userData, response, discordId) {
             { name: 'Shuffle', value: response.data.shuffle_state ? 'On' : 'Off', inline: true }
           )
           .setTimestamp();
-    } else if (response.data.device.is_private_session && response.data.device.is_active) {
+    } else if (response.data && response.data.device.is_private_session && response.data.device.is_active) {
         embed = new EmbedBuilder()
           .setColor('#1DB954')
           .setTitle(`Private Session Active`)
